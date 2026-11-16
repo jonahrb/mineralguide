@@ -13,14 +13,17 @@ Open `http://localhost:3000`.
 
 ## Lead email setup
 
-The inquiry form posts to `/api/contact`. It sends email through Resend from the server, so API credentials are not exposed in browser code. Copy `.env.example` to `.env.local` and set:
+The inquiry form posts to `/api/contact`. It sends email through SMTP from the server, so credentials are not exposed in browser code. Copy `.env.example` to `.env.local` and set:
 
-- `RESEND_API_KEY`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
 - `LEAD_TO_EMAIL`
-- `LEAD_FROM_EMAIL` (must be a sender/domain verified with Resend)
+- `FROM_EMAIL` (optional; defaults to `SMTP_USER`)
 - `NEXT_PUBLIC_SITE_URL` (set this to the public site URL after deployment)
 
-Add the same values in the Vercel project's Environment Variables for each environment. Until the three Resend values are set, the endpoint returns a clear configuration error and does not store submissions.
+Add the same values in the Vercel project's Environment Variables for each environment. Until the SMTP and lead-recipient values are set, the endpoint returns a clear configuration error and does not store submissions.
 
 ## Adding an article
 
