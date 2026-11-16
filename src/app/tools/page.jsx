@@ -1,4 +1,5 @@
 import ToolsHub from '../../components/ToolsHub';
+import { tools } from '../../lib/tools';
 
 export const metadata = {
   title: 'Tools',
@@ -6,5 +7,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  return <ToolsHub />;
+  return <ToolsHub tools={tools} />;
 }

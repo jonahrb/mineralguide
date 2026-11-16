@@ -1,0 +1,8 @@
+{
+  "slug": "net-mineral-acres",
+  "title": "Net mineral acres calculator",
+  "category": "Ownership",
+  "description": "Estimate net mineral acres from gross acreage and an ownership share.",
+  "icon": "layers",
+  "order": 3
+}

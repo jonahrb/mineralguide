@@ -1,10 +1,12 @@
 import '../styles.css';
 import { Analytics } from '@vercel/analytics/next';
 import SiteShell from '../components/SiteShell';
+import { getSiteUrl } from '../lib/site';
 
 export const metadata = {
-  ...(process.env.NEXT_PUBLIC_SITE_URL
-    ? { metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL) }
+  metadataBase: new URL(getSiteUrl()),
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
     : {}),
   title: { default: 'Mineral Guide — Make sense of what you own', template: '%s | Mineral Guide' },
   description: 'Clear guides and practical tools for mineral and royalty owners.',

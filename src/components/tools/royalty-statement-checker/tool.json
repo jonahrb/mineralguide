@@ -1,0 +1,8 @@
+{
+  "slug": "royalty-statement-checker",
+  "title": "Production revenue check",
+  "category": "Royalties",
+  "description": "Compare a simple production and price estimate with reported revenue.",
+  "icon": "receipt",
+  "order": 5
+}

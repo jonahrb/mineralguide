@@ -62,6 +62,7 @@ function readArticle(filename) {
   const {
     title,
     description,
+    author = 'Mineral Guide',
     category,
     status = 'draft',
     publishedAt,
@@ -70,9 +71,9 @@ function readArticle(filename) {
     tags = [],
     sources = [],
   } = parsed.data;
-  if (!title || !description || !category) {
+  if (!title || !description || !author || !category) {
     throw new Error(
-      `Article ${filename} must define title, description, and category in its frontmatter.`,
+      `Article ${filename} must define title, description, author, and category in its frontmatter.`,
     );
   }
   if (!['draft', 'published'].includes(status)) {
@@ -94,6 +95,7 @@ function readArticle(filename) {
     slug,
     title,
     description,
+    author: String(author).trim(),
     category,
     status,
     publishedAt: publishedAt ? normalizeDate(publishedAt, 'publishedAt', filename) : null,

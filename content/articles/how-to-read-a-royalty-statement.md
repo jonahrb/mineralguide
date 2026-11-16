@@ -1,6 +1,7 @@
 ---
 title: How to read an oil and gas royalty statement
 description: Review the property, sales period, volume, price, owner decimal, deductions, and payment lines on a royalty statement.
+author: Mineral Guide
 category: Royalties & payments
 status: published
 publishedAt: 2026-11-16

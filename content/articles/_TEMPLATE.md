@@ -1,6 +1,7 @@
 ---
 title: Article title
 description: One sentence summary for cards and search results.
+author: Mineral Guide
 category: Ownership basics
 status: draft
 publishedAt: 2026-01-01

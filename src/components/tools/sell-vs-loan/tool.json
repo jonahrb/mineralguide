@@ -1,0 +1,8 @@
+{
+  "slug": "sell-vs-loan",
+  "title": "Sell vs. loan decision planner",
+  "category": "Decision support",
+  "description": "Compare cash offers, loan payments, and future royalty income side by side.",
+  "icon": "scale",
+  "order": 1
+}

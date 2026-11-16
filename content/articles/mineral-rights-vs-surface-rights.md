@@ -1,6 +1,7 @@
 ---
 title: 'Mineral rights vs. surface rights: what does each one include?'
 description: Surface and mineral ownership can be held by different people. Learn what a split estate means and which records can help establish what you own.
+author: Mineral Guide
 category: Ownership basics
 status: published
 publishedAt: 2026-11-16

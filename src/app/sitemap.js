@@ -1,14 +1,6 @@
 import { getPublishedArticles } from '../lib/articles';
-import { tools } from '../content/tools';
-
-function getSiteUrl() {
-  const configured =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : 'https://mineralguide.us');
-  return configured.replace(/\/$/, '');
-}
+import { getSiteUrl } from '../lib/site';
+import { tools } from '../lib/tools';
 
 export default function sitemap() {
   const base = getSiteUrl();

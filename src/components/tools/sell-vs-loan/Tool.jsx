@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import useTrackCalculator from './useTrackCalculator';
+import useTrackCalculator from '../useTrackCalculator';
 
 const money = (value) =>
   new Intl.NumberFormat('en-US', {
@@ -109,18 +109,17 @@ function Calculator() {
     const annualDiscountRate = discountRate / 100;
     const monthlyDiscount = Math.pow(1 + annualDiscountRate, 1 / 12) - 1;
     const monthlyInterestRate = annualInterestRate / 100 / 12;
-    const payment = monthlyInterestRate === 0
-      ? loanAmount / loanMonths
-      : loanAmount * monthlyInterestRate /
-        (1 - Math.pow(1 + monthlyInterestRate, -loanMonths));
+    const payment =
+      monthlyInterestRate === 0
+        ? loanAmount / loanMonths
+        : (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanMonths));
     const netLoanCash = Math.max(0, loanAmount - upfrontFees);
 
     let pvRoyaltySold = 0;
     for (let month = 1; month <= outlookYears * 12; month += 1) {
       const year = Math.floor((month - 1) / 12);
       const income = monthlyRoyalty * Math.pow(1 - annualDecline / 100, year);
-      pvRoyaltySold +=
-        (income * (incomeShareSold / 100)) / Math.pow(1 + monthlyDiscount, month);
+      pvRoyaltySold += (income * (incomeShareSold / 100)) / Math.pow(1 + monthlyDiscount, month);
     }
 
     let pvLoanPayments = 0;
@@ -151,8 +150,17 @@ function Calculator() {
       totalInterest,
     };
   }, [
-    cashGoal, monthlyRoyalty, loanAmount, annualInterestRate, loanMonths,
-    saleCash, incomeShareSold, outlookYears, annualDecline, discountRate, upfrontFees,
+    cashGoal,
+    monthlyRoyalty,
+    loanAmount,
+    annualInterestRate,
+    loanMonths,
+    saleCash,
+    incomeShareSold,
+    outlookYears,
+    annualDecline,
+    discountRate,
+    upfrontFees,
   ]);
 
   useTrackCalculator('sell-vs-loan', true);
@@ -221,29 +229,100 @@ function Calculator() {
       <div className="svl-intro">
         <span className="svl-eyebrow">MINERAL RIGHTS DECISION TOOL</span>
         <h2>Should you sell or borrow?</h2>
-        <p>Compare a fully amortizing loan with a sale offer. Adjust the numbers to match your situation; the monthly loan payment is calculated automatically.</p>
+        <p>
+          Compare a fully amortizing loan with a sale offer. Adjust the numbers to match your
+          situation; the monthly loan payment is calculated automatically.
+        </p>
       </div>
 
       <div className="svl-layout">
         <section className="svl-controls">
           <h3 className="svl-section-title">Your situation</h3>
-          <Slider label="Current monthly royalty income" value={monthlyRoyalty} onChange={setMonthlyRoyalty} min={0} max={10000} step={25} format={money} />
-          <Slider label="Cash you need" value={cashGoal} onChange={setCashGoal} min={5000} max={250000} step={500} format={money} hint="Used to show whether each option provides enough cash." />
+          <Slider
+            label="Current monthly royalty income"
+            value={monthlyRoyalty}
+            onChange={setMonthlyRoyalty}
+            min={0}
+            max={10000}
+            step={25}
+            format={money}
+          />
+          <Slider
+            label="Cash you need"
+            value={cashGoal}
+            onChange={setCashGoal}
+            min={5000}
+            max={250000}
+            step={500}
+            format={money}
+            hint="Used to show whether each option provides enough cash."
+          />
 
-          <h3 className="svl-section-title" style={{ marginTop: 22 }}>Compare your offers</h3>
-          <div className="svl-subhead" style={{ margin: '0 0 12px' }}>Borrow</div>
-          <Slider label="Loan amount" value={loanAmount} onChange={(value) => { setLoanAmount(value); setUpfrontFees((fees) => Math.min(fees, value)); }} min={5000} max={250000} step={500} format={money} />
-          <Slider label="Annual interest rate" value={annualInterestRate} onChange={setAnnualInterestRate} min={0} max={30} step={0.25} format={(v) => `${v}%`} hint="The stated annual interest rate, before any fees." />
-          <Slider label="Loan repayment period" value={loanMonths} onChange={setLoanMonths} min={12} max={60} step={12} format={(v) => `${v} months`} />
+          <h3 className="svl-section-title" style={{ marginTop: 22 }}>
+            Compare your offers
+          </h3>
+          <div className="svl-subhead" style={{ margin: '0 0 12px' }}>
+            Borrow
+          </div>
+          <Slider
+            label="Loan amount"
+            value={loanAmount}
+            onChange={(value) => {
+              setLoanAmount(value);
+              setUpfrontFees((fees) => Math.min(fees, value));
+            }}
+            min={5000}
+            max={250000}
+            step={500}
+            format={money}
+          />
+          <Slider
+            label="Annual interest rate"
+            value={annualInterestRate}
+            onChange={setAnnualInterestRate}
+            min={0}
+            max={30}
+            step={0.25}
+            format={(v) => `${v}%`}
+            hint="The stated annual interest rate, before any fees."
+          />
+          <Slider
+            label="Loan repayment period"
+            value={loanMonths}
+            onChange={setLoanMonths}
+            min={12}
+            max={60}
+            step={12}
+            format={(v) => `${v} months`}
+          />
           <div className="svl-status" style={{ marginBottom: 18 }}>
             <span>Calculated monthly payment</span>
             <strong>{money(result.payment)}</strong>
             <small>Fully amortizing; paid monthly over {loanMonths} months</small>
           </div>
 
-          <div className="svl-subhead" style={{ margin: '0 0 12px' }}>Sell</div>
-          <Slider label="Sale cash to you" value={saleCash} onChange={setSaleCash} min={5000} max={500000} step={500} format={money} />
-          <Slider label="Estimated royalty income transferred" value={incomeShareSold} onChange={setIncomeShareSold} min={0} max={100} step={1} format={(v) => `${v}%`} hint="A simplified estimate of the share of current royalty income conveyed in the sale." />
+          <div className="svl-subhead" style={{ margin: '0 0 12px' }}>
+            Sell
+          </div>
+          <Slider
+            label="Sale cash to you"
+            value={saleCash}
+            onChange={setSaleCash}
+            min={5000}
+            max={500000}
+            step={500}
+            format={money}
+          />
+          <Slider
+            label="Estimated royalty income transferred"
+            value={incomeShareSold}
+            onChange={setIncomeShareSold}
+            min={0}
+            max={100}
+            step={1}
+            format={(v) => `${v}%`}
+            hint="A simplified estimate of the share of current royalty income conveyed in the sale."
+          />
 
           <button
             type="button"
@@ -257,18 +336,59 @@ function Calculator() {
 
           {showAdvanced && (
             <div className="svl-advanced-panel">
-              <p>These assumptions affect the estimated value of future royalties. Loan payments use a standard fully amortizing schedule with no balloon payment. Upfront fees are assumed to be deducted from the loan proceeds.</p>
-              <Slider label="Upfront loan fees" value={upfrontFees} onChange={setUpfrontFees} min={0} max={Math.min(10000, loanAmount)} step={50} format={money} hint="Assumed to be withheld from the loan amount before cash is paid to you." />
-              <Slider label="Years to project royalty income" value={outlookYears} onChange={setOutlookYears} min={1} max={30} step={1} format={(v) => `${v} years`} />
-              <Slider label="Assumed annual royalty decline" value={annualDecline} onChange={setAnnualDecline} min={0} max={20} step={0.5} format={(v) => `${v}%`} hint="Assumes royalty income declines by this rate each year." />
-              <Slider label="Annual discount rate" value={discountRate} onChange={setDiscountRate} min={0} max={15} step={0.25} format={(v) => `${v}%`} hint="Converts future dollars into an estimated value in today's dollars." />
+              <p>
+                These assumptions affect the estimated value of future royalties. Loan payments use
+                a standard fully amortizing schedule with no balloon payment. Upfront fees are
+                assumed to be deducted from the loan proceeds.
+              </p>
+              <Slider
+                label="Upfront loan fees"
+                value={upfrontFees}
+                onChange={setUpfrontFees}
+                min={0}
+                max={Math.min(10000, loanAmount)}
+                step={50}
+                format={money}
+                hint="Assumed to be withheld from the loan amount before cash is paid to you."
+              />
+              <Slider
+                label="Years to project royalty income"
+                value={outlookYears}
+                onChange={setOutlookYears}
+                min={1}
+                max={30}
+                step={1}
+                format={(v) => `${v} years`}
+              />
+              <Slider
+                label="Assumed annual royalty decline"
+                value={annualDecline}
+                onChange={setAnnualDecline}
+                min={0}
+                max={20}
+                step={0.5}
+                format={(v) => `${v}%`}
+                hint="Assumes royalty income declines by this rate each year."
+              />
+              <Slider
+                label="Annual discount rate"
+                value={discountRate}
+                onChange={setDiscountRate}
+                min={0}
+                max={15}
+                step={0.25}
+                format={(v) => `${v}%`}
+                hint="Converts future dollars into an estimated value in today's dollars."
+              />
             </div>
           )}
         </section>
 
         <aside className="svl-results" aria-live="polite">
           <span className="svl-eyebrow">SIDE-BY-SIDE RESULT</span>
-          <div className={`svl-verdict ${Math.abs(result.difference) <= result.closeThreshold ? 'close' : result.difference < 0 ? 'sell' : ''}`}>
+          <div
+            className={`svl-verdict ${Math.abs(result.difference) <= result.closeThreshold ? 'close' : result.difference < 0 ? 'sell' : ''}`}
+          >
             <span>Based on these example assumptions</span>
             <strong>{recommendation}</strong>
             <p>
@@ -282,31 +402,62 @@ function Calculator() {
             <div className="svl-status">
               <span>Loan vs. cash goal</span>
               <strong>{result.loanMeetsGoal ? 'Meets your goal' : 'Below your goal'}</strong>
-              <small>{result.loanMeetsGoal ? money(result.netLoanCash - cashGoal) + ' above' : money(result.loanShort) + ' short'}</small>
+              <small>
+                {result.loanMeetsGoal
+                  ? money(result.netLoanCash - cashGoal) + ' above'
+                  : money(result.loanShort) + ' short'}
+              </small>
             </div>
             <div className="svl-status">
               <span>Sale vs. cash goal</span>
               <strong>{result.saleMeetsGoal ? 'Meets your goal' : 'Below your goal'}</strong>
-              <small>{result.saleMeetsGoal ? money(saleCash - cashGoal) + ' above' : money(result.saleShort) + ' short'}</small>
+              <small>
+                {result.saleMeetsGoal
+                  ? money(saleCash - cashGoal) + ' above'
+                  : money(result.saleShort) + ' short'}
+              </small>
             </div>
           </div>
 
           <div className="svl-subhead">Borrowing</div>
           <div className="svl-metrics">
-            <ResultMetric label="Cash received after fees" value={money(result.netLoanCash)} sub={`${money(loanAmount)} loan amount less ${money(upfrontFees)} upfront fees`} />
-            <ResultMetric label="Calculated monthly payment" value={money(result.payment)} sub={`${loanMonths} fully amortizing payments`} />
-            <ResultMetric label="Total scheduled payments" value={money(result.totalPayments)} sub="Principal and interest combined" />
-            <ResultMetric label="Total interest cost" value={money(result.totalInterest)} sub={`At ${annualInterestRate}% annual interest`} />
+            <ResultMetric
+              label="Cash received after fees"
+              value={money(result.netLoanCash)}
+              sub={`${money(loanAmount)} loan amount less ${money(upfrontFees)} upfront fees`}
+            />
+            <ResultMetric
+              label="Calculated monthly payment"
+              value={money(result.payment)}
+              sub={`${loanMonths} fully amortizing payments`}
+            />
+            <ResultMetric
+              label="Total scheduled payments"
+              value={money(result.totalPayments)}
+              sub="Principal and interest combined"
+            />
+            <ResultMetric
+              label="Total interest cost"
+              value={money(result.totalInterest)}
+              sub={`At ${annualInterestRate}% annual interest`}
+            />
           </div>
 
           <div className="svl-subhead">Selling</div>
           <div className="svl-metrics">
             <ResultMetric label="Cash received" value={money(saleCash)} />
-            <ResultMetric label="Future royalties transferred" value={money(result.pvRoyaltySold)} sub={`Estimated present value over ${outlookYears} years`} />
+            <ResultMetric
+              label="Future royalties transferred"
+              value={money(result.pvRoyaltySold)}
+              sub={`Estimated present value over ${outlookYears} years`}
+            />
           </div>
 
           <p className="svl-footnote">
-            Assumptions: standard fully amortizing loan with monthly payments; upfront fees deducted from proceeds; {outlookYears}-year royalty outlook; {annualDecline}% annual royalty decline; and {discountRate}% annual discount rate. The comparison excludes taxes, mineral resale value, changing production, and contract-specific terms.
+            Assumptions: standard fully amortizing loan with monthly payments; upfront fees deducted
+            from proceeds; {outlookYears}-year royalty outlook; {annualDecline}% annual royalty
+            decline; and {discountRate}% annual discount rate. The comparison excludes taxes,
+            mineral resale value, changing production, and contract-specific terms.
           </p>
         </aside>
       </div>

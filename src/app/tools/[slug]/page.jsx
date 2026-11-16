@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
-import ToolsHub from '../../../components/ToolsHub';
-import { tools } from '../../../content/tools';
+import ToolDetail from '../../../components/ToolDetail';
+import { getTool, tools } from '../../../lib/tools';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -8,12 +8,17 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const tool = tools.find((item) => item.slug === slug);
+  const tool = getTool(slug);
   return tool ? { title: tool.title, description: tool.description } : {};
 }
 export default async function Page({ params }) {
   const { slug } = await params;
-  const tool = tools.find((item) => item.slug === slug);
+  const tool = getTool(slug);
   if (!tool) notFound();
-  return <ToolsHub slug={slug} />;
+  const { default: Tool } = await import(`../../../components/tools/${slug}/Tool.jsx`);
+  return (
+    <ToolDetail tool={tool}>
+      <Tool />
+    </ToolDetail>
+  );
 }

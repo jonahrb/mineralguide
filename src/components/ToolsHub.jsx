@@ -12,12 +12,6 @@ import {
   Scale,
   TrendingDown,
 } from 'lucide-react';
-import { tools, toolCategories } from '../content/tools';
-import RoyaltyValueEstimator from './tools/RoyaltyValueEstimator';
-import NetMineralAcresCalculator from './tools/NetMineralAcresCalculator';
-import RoyaltyIncomeSimulator from './tools/RoyaltyIncomeSimulator';
-import ProductionRevenueCheck from './tools/ProductionRevenueCheck';
-import SellVsLoanDecisionTool from './tools/SellVsLoanDecisionTool';
 
 const iconMap = {
   chart: ChartNoAxesCombined,
@@ -26,63 +20,17 @@ const iconMap = {
   receipt: ReceiptText,
   scale: Scale,
 };
-const runnerMap = {
-  royaltyValue: RoyaltyValueEstimator,
-  netAcres: NetMineralAcresCalculator,
-  incomeProjection: RoyaltyIncomeSimulator,
-  statementCheck: ProductionRevenueCheck,
-  sellVsLoan: SellVsLoanDecisionTool,
-};
 
-export default function ToolsHub({ slug }) {
+export default function ToolsHub({ tools }) {
   const [category, setCategory] = useState('All tools');
-  const activeTool = tools.find((tool) => tool.slug === slug);
+  const toolCategories = useMemo(
+    () => ['All tools', ...new Set(tools.map((tool) => tool.category))],
+    [tools],
+  );
   const filtered = useMemo(
     () => tools.filter((tool) => category === 'All tools' || tool.category === category),
-    [category],
+    [category, tools],
   );
-
-  if (activeTool) {
-    const Icon = iconMap[activeTool.icon] || Calculator;
-    const Runner = runnerMap[activeTool.component];
-    return (
-      <main className="tools-page">
-        <section className="tool-detail wrap">
-          <Link href="/tools" className="back-link">
-            ← All tools
-          </Link>
-          <div className="tool-detail-head">
-            <div className="tool-tile-icon">
-              <Icon size={25} />
-            </div>
-            <div>
-              <span className="tool-category">{activeTool.category}</span>
-              <h1>{activeTool.title}</h1>
-            </div>
-          </div>
-          <p className="tool-detail-intro">{activeTool.description}</p>
-          <div className="tool-runner">
-            <div className="tool-runner-head">
-              <div>
-                <span className="eyebrow">
-                  <span className="eyebrow-line" /> INTERACTIVE TOOL
-                </span>
-                <h2>Enter your assumptions</h2>
-              </div>
-            </div>
-            {Runner ? <Runner /> : <p>This tool is being prepared.</p>}
-          </div>
-          <div className="tool-detail-note">
-            <span aria-hidden="true">ⓘ</span>
-            <span>
-              For education and scenario exploration only. This tool does not provide legal, tax,
-              investment, lending, appraisal, or purchase advice.
-            </span>
-          </div>
-        </section>
-      </main>
-    );
-  }
 
   return (
     <main className="tools-page">

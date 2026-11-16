@@ -1,6 +1,7 @@
 ---
-title: 'Should you sell your mineral rights or get a loan?'
-description: Compare selling mineral rights with borrowing against them, understand the tradeoffs, and prepare questions before you sign an offer or loan agreement.
+title: 'Should I Sell My Mineral Rights or Get a Loan?'
+description: Should I sell my minerals or get a loan? Compare net cash, repayment cost, collateral risk, future royalty income, and the exact rights a sale transfers.
+author: Mineral Guide
 category: Selling & financing
 status: published
 publishedAt: 2026-11-16
@@ -20,9 +21,9 @@ sources:
     url: https://www.consumerfinance.gov/ask-cfpb/what-is-the-difference-between-a-loan-interest-rate-and-the-apr-en-733/
 ---
 
-There is no single right answer for every mineral owner. **A sale can make sense when you want to permanently exchange some or all of an ownership interest for cash. A loan can make sense when you need cash for a defined period and can manage repayment while keeping the interest.** The right comparison depends on the exact documents, the cash you need, future income uncertainty, and how much ownership or control you want to retain.
+**Should I sell my minerals or get a loan?** There is no single right answer. A true loan may fit a temporary cash need if you can manage repayment and accept any collateral risk. A sale may fit if you want cash without a repayment schedule and are comfortable transferring the specific mineral, royalty, or production rights in the agreement. Compare net cash today, total loan payments and fees, and the future income and rights a sale gives up.
 
-Start by confirming what the proposed transaction legally does. “Mineral loan,” “royalty advance,” and “cash offer” are marketing descriptions; read the contract to see whether it creates debt, transfers an ownership interest, assigns production proceeds, or combines these features. The name on the offer alone does not settle its legal or tax treatment.
+Start by confirming what the proposed transaction legally does. “Mineral loan,” “royalty advance,” and “cash offer” are marketing descriptions. Read the agreement to see whether it creates debt, transfers an ownership interest, assigns production proceeds, or combines these features. The label alone does not determine what you give up or how the transaction is treated for tax purposes.
 
 ## When a loan may fit
 
@@ -87,6 +88,24 @@ For a loan, compare the written cost, fees, and repayment terms. The CFPB notes 
 - If it is a loan, what is the total amount due, when is it due, and what collateral or default remedies apply?
 - If it is a sale, what income or ownership will I retain after closing?
 - Can I take the documents away and have an independent attorney and tax professional review them?
+
+## Common questions
+
+### Is it better to sell mineral rights or borrow against them?
+
+Neither is automatically better. A loan preserves the possibility of keeping the interest but creates repayment obligations and may pledge the interest as collateral. A sale avoids loan payments but transfers the rights and future income specified in the sale documents. Compare the net proceeds and contract terms against your need, plans, and tolerance for debt or giving up future income.
+
+### Will I keep receiving royalties if I take a mineral-rights loan?
+
+Do not assume either way. The answer depends on whether the agreement only creates a lien, assigns royalty payments, or transfers some production rights. Ask the lender to identify what is pledged, who receives royalty checks during the loan, what happens after payoff, and what remedies apply after a default. Have an independent mineral attorney review the documents.
+
+### If I sell my minerals, do I give up all future royalties?
+
+Not necessarily. A buyer may purchase all or only a defined part of an interest or future production, and you may retain some rights. The deed, assignment, or purchase agreement controls. Confirm the legal description, interest type, fractional share, properties included, and any royalty or other interest you retain before signing.
+
+### How can I compare a loan with a sale offer?
+
+For the loan, compare net cash received with every required payment, balloon amount, and fee, and check the collateral and default terms. For the sale, compare net proceeds with the exact rights transferred and a realistic range of future royalty income. Future income is uncertain, so a simple total-income forecast is not the same as a present-day sale value.
 
 If you are exploring either option, use the [sell vs. loan decision planner](/tools/sell-vs-loan) to compare a cash target with quoted terms, and the [royalty income simulator](/tools/royalty-income-simulator) to model a simple decline scenario. You can then use the website inquiry form to request information about financing or a purchase offer. Asking for information does not require you to accept a proposal. Mineral Guide may receive compensation when an inquiry results in a connection or transaction; compare the written terms and seek independent advice before signing.
 
