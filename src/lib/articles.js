@@ -8,10 +8,52 @@ const readingTime = (content) => Math.max(1, Math.ceil(wordCount(content) / 220)
 
 function normalizeDate(value, field, filename) {
   const date = value instanceof Date ? value.toISOString().slice(0, 10) : value;
-  if (typeof date !== 'string' || Number.isNaN(Date.parse(date))) {
+  if (
+    typeof date !== 'string' ||
+    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+    Number.isNaN(Date.parse(`${date}T00:00:00Z`)) ||
+    new Date(`${date}T00:00:00Z`).toISOString().slice(0, 10) !== date
+  ) {
     throw new Error(`Article ${filename} needs a valid ${field} date in YYYY-MM-DD format.`);
   }
   return date;
+}
+
+function normalizeSources(sources, filename) {
+  if (!Array.isArray(sources)) {
+    throw new Error(`Article ${filename} sources must be a list.`);
+  }
+
+  const seenUrls = new Set();
+  return sources.map((source) => {
+    if (
+      !source ||
+      typeof source.title !== 'string' ||
+      !source.title.trim() ||
+      typeof source.url !== 'string'
+    ) {
+      throw new Error(`Each source in ${filename} must include a title and URL.`);
+    }
+
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(source.url);
+    } catch {
+      throw new Error(
+        `Source URL "${source.url}" in ${filename} must be an absolute HTTP or HTTPS URL.`,
+      );
+    }
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      throw new Error(`Source URL "${source.url}" in ${filename} must use HTTP or HTTPS.`);
+    }
+
+    const normalizedUrl = parsedUrl.href;
+    if (seenUrls.has(normalizedUrl)) {
+      throw new Error(`Article ${filename} contains duplicate source URL: ${normalizedUrl}`);
+    }
+    seenUrls.add(normalizedUrl);
+    return { title: source.title.trim(), url: normalizedUrl };
+  });
 }
 
 function readArticle(filename) {
@@ -36,8 +78,16 @@ function readArticle(filename) {
   if (!['draft', 'published'].includes(status)) {
     throw new Error(`Article ${filename} status must be either "draft" or "published".`);
   }
-  if (!Array.isArray(tags) || !Array.isArray(sources)) {
-    throw new Error(`Article ${filename} tags and sources must be lists.`);
+  if (!Array.isArray(tags) || tags.some((tag) => typeof tag !== 'string' || !tag.trim())) {
+    throw new Error(`Article ${filename} tags must be a list of non-empty strings.`);
+  }
+  if (status === 'published' && (!publishedAt || !updatedAt)) {
+    throw new Error(`Published article ${filename} must define publishedAt and updatedAt dates.`);
+  }
+  if (/^#{1,6}\s+sources\s*$/im.test(parsed.content)) {
+    throw new Error(
+      `Article ${filename} has a Sources heading in its body. Put source links in frontmatter; the page renders them automatically.`,
+    );
   }
 
   return {
@@ -50,7 +100,7 @@ function readArticle(filename) {
     updatedAt: updatedAt ? normalizeDate(updatedAt, 'updatedAt', filename) : null,
     featured: Boolean(featured),
     tags: tags.map(String),
-    sources,
+    sources: normalizeSources(sources, filename),
     readTime: readingTime(parsed.content),
     content: parsed.content.trim(),
   };

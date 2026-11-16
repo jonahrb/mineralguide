@@ -1,4 +1,5 @@
 import '../styles.css';
+import { Analytics } from '@vercel/analytics/next';
 import SiteShell from '../components/SiteShell';
 
 export const metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <SiteShell>{children}</SiteShell>
+        <Analytics />
       </body>
     </html>
   );

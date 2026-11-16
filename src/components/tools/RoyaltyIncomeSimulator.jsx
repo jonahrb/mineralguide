@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import CalculatorField from './CalculatorField';
 import { currency, InputPrompt, ResultPanel } from './ResultPanel';
+import useTrackCalculator from './useTrackCalculator';
 
 export default function RoyaltyIncomeSimulator() {
   const [monthly, setMonthly] = useState('');
@@ -16,6 +17,7 @@ export default function RoyaltyIncomeSimulator() {
     Number(decline) <= 100 &&
     Number(years) >= 1 &&
     Number(years) <= 50;
+  useTrackCalculator('royalty-income-simulator', valid);
   const n = Math.floor(Number(years));
   const d = Number(decline) / 100;
   const total = Array.from({ length: n }, (_, i) => Number(monthly) * 12 * (1 - d) ** i).reduce(

@@ -19,11 +19,15 @@ The inquiry form posts to `/api/contact` and sends email through server-side SMT
 
 1. Copy `content/articles/_TEMPLATE.md` to a new Markdown file in `content/articles/`. The filename becomes the URL slug.
 2. Fill in the YAML frontmatter: `title`, `description`, `category`, `status`, `publishedAt`, `updatedAt`, `featured`, and `tags`.
-3. Write the article in Markdown. Add source links in `sources` and cite them near the claims they support.
+3. Write the article in Markdown. Add source links in the frontmatter `sources` list and cite them near the claims they support in the body. The article page displays that list once automatically; do not add a second Sources section to the Markdown body.
 4. Use `status: draft` while editing. Drafts do not appear publicly or get a route. Set `status: published` when ready.
 5. Run `npm run build` before publishing. Article pages and the sitemap are generated from published files.
 
 The loader in `src/lib/articles.js` validates required metadata and dates. Underscore-prefixed Markdown files are reserved for templates and excluded from the article list.
+
+## Analytics
+
+The root layout includes Vercel Web Analytics for page views across the site. Enable Web Analytics in the Vercel project dashboard and deploy the change to begin collecting data. The inquiry flow emits `Lead Form Opened` and `Lead Form Submitted` custom events with only the selected inquiry type; calculators emit `Calculator Used` once per loaded calculator when its inputs produce a result. These events never include form values or calculator inputs. Custom-event availability depends on the Vercel plan.
 
 ## Adding a tool
 

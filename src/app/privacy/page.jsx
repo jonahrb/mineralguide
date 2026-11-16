@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Privacy',
-  description: 'How Mineral Guide handles information submitted through its inquiry form.',
+  description: 'How Mineral Guide handles inquiry information and website analytics.',
 };
 
 export default function Page() {
@@ -18,6 +18,28 @@ export default function Page() {
           name, email address, state, information about your mineral or royalty interest, and any
           message you include. The website sends this information by email to the Mineral Guide
           team. The current site does not save inquiry submissions in a website database.
+        </p>
+      </section>
+      <section>
+        <h2>Website analytics</h2>
+        <p>
+          The site uses Vercel Web Analytics to understand visits and improve its pages. It records
+          aggregated page-view information such as the page path, referring site, and general
+          browser, device, operating-system, and location details. Vercel says Web Analytics does
+          not use cookies and uses a daily request hash for visitor counts that expires after 24
+          hours. The site also records whether an inquiry form was opened or successfully submitted,
+          along with the selected inquiry type (financing or purchase offer). It also records when a
+          calculator produces a result and which tool was used, but not the values entered. It does
+          not send your name, email address, state, ownership details, or message as analytics event
+          data. See Vercel's{' '}
+          <a
+            href="https://vercel.com/docs/analytics/privacy-policy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Web Analytics privacy information
+          </a>{' '}
+          for more detail.
         </p>
       </section>
       <section>

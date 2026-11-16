@@ -50,9 +50,4 @@ Start with the deed or other document through which you received the property. L
 
 If the chain of title is unclear, a title professional or attorney familiar with the state and county can help interpret the documents. Do not assume that surface ownership, a tax record, a lease mailing, or a single payment statement settles the full ownership question.
 
-## Sources
-
-- [Bureau of Land Management: Split Estate](https://www.blm.gov/programs/energy-and-minerals/mining-and-minerals/split-estate)
-- [Texas Railroad Commission: Royalties FAQ](https://www.rrc.texas.gov/about-us/faqs/royalties-faq/)
-
 This guide is general education. The examples above do not determine ownership of a particular property; deed language, title history, and local law control.

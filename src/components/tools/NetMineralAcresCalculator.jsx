@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import CalculatorField from './CalculatorField';
 import { InputPrompt, ResultPanel } from './ResultPanel';
+import useTrackCalculator from './useTrackCalculator';
 
 export default function NetMineralAcresCalculator() {
   const [acres, setAcres] = useState('');
@@ -9,6 +10,7 @@ export default function NetMineralAcresCalculator() {
   const valid =
     [acres, share].every((v) => v !== '' && Number.isFinite(Number(v)) && Number(v) >= 0) &&
     Number(share) <= 100;
+  useTrackCalculator('net-mineral-acres', valid);
   const result = (Number(acres) * Number(share)) / 100;
   return (
     <>

@@ -8,6 +8,7 @@ updatedAt: 2026-01-01
 featured: false
 tags:
   - topic
+# Sources belong in this frontmatter list only. Article pages render them once at the end.
 sources:
   - title: 'Source title'
     url: https://example.org/source
@@ -24,6 +25,6 @@ Explain one point at a time. Keep state-specific or contract-specific exceptions
 - Give the reader something concrete to check or do.
 - Link to a related guide or tool when it helps.
 
-## Sources and limits
+## Important limits
 
-Explain what varies by state, lease, deed, operator, or property. Put authoritative references in the `sources` list above.
+Explain what varies by state, lease, deed, operator, or property. Do not add a second Sources heading or source list to the article body; put authoritative references in the frontmatter list above.

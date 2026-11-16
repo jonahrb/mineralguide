@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import React, { createContext, useContext, useState } from 'react';
+import { track } from '@vercel/analytics';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -25,6 +26,7 @@ export default function SiteShell({ children }) {
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
   const openForm = (type = 'Financing') => {
+    track('Lead Form Opened', { interest: type });
     setFormType(type);
     setResult(null);
     setInquiryOpen(true);
@@ -47,6 +49,7 @@ export default function SiteShell({ children }) {
       const payload = await response.json();
       if (!response.ok)
         throw new Error(payload.error || 'We could not submit your request. Please try again.');
+      track('Lead Form Submitted', { interest: formType });
       setResult({ success: true, message: payload.message });
       form.reset();
     } catch (error) {

@@ -43,9 +43,4 @@ For each statement, save the original document and note the property, sales peri
 
 For a Texas payment, the Railroad Commission's FAQ describes statutory statement requirements and explains ways owners may request information. Requirements differ elsewhere, so check the state and the specific documents that govern your interest.
 
-## Sources
-
-- [Texas Railroad Commission: Royalties FAQ](https://www.rrc.texas.gov/about-us/faqs/royalties-faq/)
-- [Texas Railroad Commission: Production Data Query System FAQs](https://www.rrc.texas.gov/about-us/faqs/oil-gas-faq/production-data-query-system-faqs/)
-
 This guide is general education and does not determine whether a deduction or payment is correct for a specific interest.

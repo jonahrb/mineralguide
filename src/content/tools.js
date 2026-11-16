@@ -1,6 +1,14 @@
 // Add one metadata record and one renderer in src/components/tools to publish a tool.
 export const tools = [
   {
+    slug: 'sell-vs-loan',
+    title: 'Sell vs. loan decision planner',
+    category: 'Decision support',
+    description: 'Compare cash offers, loan payments, and future royalty income side by side.',
+    icon: 'scale',
+    component: 'sellVsLoan',
+  },
+  {
     slug: 'royalty-value-estimator',
     title: 'Royalty income multiple scenario',
     category: 'Valuation',

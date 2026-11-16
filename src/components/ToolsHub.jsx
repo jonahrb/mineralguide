@@ -9,6 +9,7 @@ import {
   ChartNoAxesCombined,
   Layers3,
   ReceiptText,
+  Scale,
   TrendingDown,
 } from 'lucide-react';
 import { tools, toolCategories } from '../content/tools';
@@ -16,18 +17,21 @@ import RoyaltyValueEstimator from './tools/RoyaltyValueEstimator';
 import NetMineralAcresCalculator from './tools/NetMineralAcresCalculator';
 import RoyaltyIncomeSimulator from './tools/RoyaltyIncomeSimulator';
 import ProductionRevenueCheck from './tools/ProductionRevenueCheck';
+import SellVsLoanDecisionTool from './tools/SellVsLoanDecisionTool';
 
 const iconMap = {
   chart: ChartNoAxesCombined,
   layers: Layers3,
   pulse: TrendingDown,
   receipt: ReceiptText,
+  scale: Scale,
 };
 const runnerMap = {
   royaltyValue: RoyaltyValueEstimator,
   netAcres: NetMineralAcresCalculator,
   incomeProjection: RoyaltyIncomeSimulator,
   statementCheck: ProductionRevenueCheck,
+  sellVsLoan: SellVsLoanDecisionTool,
 };
 
 export default function ToolsHub({ slug }) {
