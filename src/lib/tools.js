@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const toolsDirectory = path.join(process.cwd(), 'src', 'components', 'tools');
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const supportedIcons = new Set(['chart', 'layers', 'pulse', 'receipt', 'scale']);
+const supportedIcons = new Set(['calculator', 'chart', 'layers', 'pulse', 'receipt', 'scale']);
 
 function loadTool(folderName) {
   const toolDirectory = path.join(toolsDirectory, folderName);

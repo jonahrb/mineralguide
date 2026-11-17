@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 const iconMap = {
+  calculator: Calculator,
   chart: ChartNoAxesCombined,
   layers: Layers3,
   pulse: TrendingDown,

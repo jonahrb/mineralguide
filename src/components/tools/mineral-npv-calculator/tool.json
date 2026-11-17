@@ -1,0 +1,8 @@
+{
+  "slug": "mineral-npv-calculator",
+  "title": "Mineral Rights NPV Calculator",
+  "category": "Valuation",
+  "description": "Estimate the NPV and implied return of a producing mineral interest based on current royalty income.",
+  "icon": "calculator",
+  "order": 2
+}
