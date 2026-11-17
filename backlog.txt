@@ -1,0 +1,17 @@
+#	Article	Primary purpose
+[x] 1	How Much Are My Mineral Rights Worth?	Traffic
+[x] 2	How to Sell Mineral Rights in Texas	Traffic
+[x] 3	Should I Sell My Mineral Rights or Keep Them?	Traffic + conversion
+[] 4	How to Get Cash From Mineral Rights Without Selling Them	Conversion
+[] 5	Borrowing Against Mineral Rights vs. Selling	Conversion
+[] 6	Can You Borrow Against Oil and Gas Royalties?	Conversion
+[] 7	How Much Can I Borrow Against My Mineral Rights?	Conversion
+[] 8	What Happens When You Borrow Against Mineral Rights?	Conversion
+[] 9	How Are Oil and Gas Royalties Calculated?	Traffic
+[] 10	Why Did My Royalty Checks Decrease?	Traffic
+[] 11	How to Find Out If You Own Mineral Rights in Texas	Traffic
+[] 12	How Mineral Rights Are Valued by Buyers	Traffic + conversion
+[] 13	Using Mineral Rights to Pay Off High-Interest Debt	Conversion
+[] 14	Using Mineral Rights to Fund a Business	Conversion
+[] 15	What Happens to Your Mineral Rights After a Loan Is Paid Off?	Conversion
+[] 16   How to Pass Down My Minerals to My Heirs?

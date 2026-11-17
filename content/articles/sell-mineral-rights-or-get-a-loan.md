@@ -2,7 +2,7 @@
 title: 'Should I Sell My Mineral Rights or Get a Loan?'
 description: Should I sell my minerals or get a loan? Compare net cash, repayment cost, collateral risk, future royalty income, and the exact rights a sale transfers.
 author: Mineral Guide
-category: Selling & financing
+category: Selling & Financing
 status: published
 publishedAt: 2026-11-16
 updatedAt: 2026-11-16
