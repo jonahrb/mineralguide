@@ -7,11 +7,12 @@
 [] 6	Can You Borrow Against Oil and Gas Royalties?	Conversion
 [] 7	How Much Can I Borrow Against My Mineral Rights?	Conversion
 [] 8	What Happens When You Borrow Against Mineral Rights?	Conversion
-[] 9	How Are Oil and Gas Royalties Calculated?	Traffic
-[] 10	Why Did My Royalty Checks Decrease?	Traffic
+[x] 9	How Are Oil and Gas Royalties Calculated?	Traffic
+[x] 10	Why Did My Royalty Checks Decrease?	Traffic
 [] 11	How to Find Out If You Own Mineral Rights in Texas	Traffic
 [] 12	How Mineral Rights Are Valued by Buyers	Traffic + conversion
 [] 13	Using Mineral Rights to Pay Off High-Interest Debt	Conversion
 [] 14	Using Mineral Rights to Fund a Business	Conversion
 [] 15	What Happens to Your Mineral Rights After a Loan Is Paid Off?	Conversion
 [] 16   How to Pass Down My Minerals to My Heirs?
+[] 17   How to find out if new wells are coming?
