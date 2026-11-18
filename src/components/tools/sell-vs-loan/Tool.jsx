@@ -90,30 +90,33 @@ export default function SellVsLoanDecisionTool() {
 }
 
 function Calculator() {
-  const [cashGoal, setCashGoal] = useState(50000);
+  const [cashGoal, setCashGoal] = useState(36000);
   const [monthlyRoyalty, setMonthlyRoyalty] = useState(1500);
-  const [loanAmount, setLoanAmount] = useState(50000);
+  const [loanAmount, setLoanAmount] = useState(36000);
   const [annualInterestRate, setAnnualInterestRate] = useState(15);
-  const [loanMonths, setLoanMonths] = useState(60);
-  const [saleCash, setSaleCash] = useState(65000);
+  const [loanMonths, setLoanMonths] = useState(36);
+  const [loanFeePercent, setLoanFeePercent] = useState(3);
+  const [feesRolledIn, setFeesRolledIn] = useState(true);
+  const [saleCash, setSaleCash] = useState(54000);
   const [incomeShareSold, setIncomeShareSold] = useState(100);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   // Advanced assumptions are optional and prefilled with illustrative defaults.
   const [outlookYears, setOutlookYears] = useState(10);
-  const [annualDecline, setAnnualDecline] = useState(3);
+  const [annualDecline, setAnnualDecline] = useState(5);
   const [discountRate, setDiscountRate] = useState(5);
-  const [upfrontFees, setUpfrontFees] = useState(0);
-
   const result = useMemo(() => {
     const annualDiscountRate = discountRate / 100;
     const monthlyDiscount = Math.pow(1 + annualDiscountRate, 1 / 12) - 1;
     const monthlyInterestRate = annualInterestRate / 100 / 12;
+    const loanFees = loanAmount * (loanFeePercent / 100);
+    const financedLoanAmount = loanAmount + (feesRolledIn ? loanFees : 0);
     const payment =
       monthlyInterestRate === 0
-        ? loanAmount / loanMonths
-        : (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -loanMonths));
-    const netLoanCash = Math.max(0, loanAmount - upfrontFees);
+        ? financedLoanAmount / loanMonths
+        : (financedLoanAmount * monthlyInterestRate) /
+          (1 - Math.pow(1 + monthlyInterestRate, -loanMonths));
+    const netLoanCash = Math.max(0, loanAmount - (feesRolledIn ? 0 : loanFees));
 
     let pvRoyaltySold = 0;
     for (let month = 1; month <= outlookYears * 12; month += 1) {
@@ -127,16 +130,16 @@ function Calculator() {
       pvLoanPayments += payment / Math.pow(1 + monthlyDiscount, month);
     }
 
-    // Fees are assumed to be withheld from the loan proceeds, so they reduce
-    // cash received and are not subtracted a second time from present value.
     const difference = netLoanCash - saleCash - pvLoanPayments + pvRoyaltySold;
     const totalPayments = payment * loanMonths;
-    const totalInterest = Math.max(0, totalPayments - loanAmount);
+    const totalInterest = Math.max(0, totalPayments - financedLoanAmount);
     const comparisonBase = Math.max(netLoanCash, saleCash, 1);
     const closeThreshold = comparisonBase * 0.025;
 
     return {
       payment,
+      loanFees,
+      financedLoanAmount,
       netLoanCash,
       pvRoyaltySold,
       pvLoanPayments,
@@ -153,6 +156,8 @@ function Calculator() {
     cashGoal,
     monthlyRoyalty,
     loanAmount,
+    loanFeePercent,
+    feesRolledIn,
     annualInterestRate,
     loanMonths,
     saleCash,
@@ -160,7 +165,6 @@ function Calculator() {
     outlookYears,
     annualDecline,
     discountRate,
-    upfrontFees,
   ]);
 
   useTrackCalculator('sell-vs-loan', true);
@@ -201,6 +205,10 @@ function Calculator() {
         .svl-lite input[type=range]::-webkit-slider-thumb { width:18px; height:18px; border:3px solid #fff; border-radius:50%; appearance:none; background:#2563eb; box-shadow:0 0 0 1px #2563eb,0 1px 3px #64748b; }
         .svl-lite input[type=range]::-moz-range-thumb { width:13px; height:13px; border:3px solid #fff; border-radius:50%; background:#2563eb; box-shadow:0 0 0 1px #2563eb,0 1px 3px #64748b; }
         .svl-lite .svl-slider-bottom { color:#94a3b8; font-size:10px; }
+        .svl-lite .svl-fee-toggle { display:flex; align-items:flex-start; gap:10px; margin:0 0 14px; padding:12px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; cursor:pointer; }
+        .svl-lite .svl-fee-toggle input { width:16px; height:16px; margin:2px 0 0; accent-color:#2563eb; flex:0 0 auto; }
+        .svl-lite .svl-fee-toggle strong { display:block; color:#334155; font-size:12px; }
+        .svl-lite .svl-fee-toggle small { display:block; margin-top:3px; color:#64748b; font-size:10px; line-height:1.4; }
         
         .svl-lite .svl-slider small { display:block; margin-top:5px; color:#94a3b8; font-size:10px; line-height:1.4; }
         .svl-lite .svl-advanced-toggle { display:flex; width:100%; align-items:center; justify-content:space-between; gap:12px; margin-top:18px; padding:13px 0 0; border:0; border-top:1px solid #e2e8f0; background:transparent; color:#1d4ed8; font:inherit; font-size:13px; font-weight:700; text-align:left; cursor:pointer; }
@@ -267,14 +275,12 @@ function Calculator() {
           <Slider
             label="Loan amount"
             value={loanAmount}
-            onChange={(value) => {
-              setLoanAmount(value);
-              setUpfrontFees((fees) => Math.min(fees, value));
-            }}
+            onChange={setLoanAmount}
             min={5000}
             max={250000}
             step={500}
             format={money}
+            hint="The amount before any financed fees are added."
           />
           <Slider
             label="Annual interest rate"
@@ -338,19 +344,35 @@ function Calculator() {
             <div className="svl-advanced-panel">
               <p>
                 These assumptions affect the estimated value of future royalties. Loan payments use
-                a standard fully amortizing schedule with no balloon payment. Upfront fees are
-                assumed to be deducted from the loan proceeds.
+                a standard fully amortizing schedule with no balloon payment. Fees are estimated as
+                a percentage of the requested loan amount and are either withheld from proceeds or
+                added to the financed balance.
               </p>
               <Slider
-                label="Upfront loan fees"
-                value={upfrontFees}
-                onChange={setUpfrontFees}
+                label="Loan fee rate"
+                value={loanFeePercent}
+                onChange={setLoanFeePercent}
                 min={0}
-                max={Math.min(10000, loanAmount)}
-                step={50}
-                format={money}
-                hint="Assumed to be withheld from the loan amount before cash is paid to you."
+                max={10}
+                step={0.25}
+                format={(value) => `${value}%`}
+                hint={`${money(result.loanFees)} estimated fee on the current loan amount.`}
               />
+              <label className="svl-fee-toggle">
+                <input
+                  type="checkbox"
+                  checked={feesRolledIn}
+                  onChange={(event) => setFeesRolledIn(event.target.checked)}
+                />
+                <span>
+                  <strong>Roll fees into the loan balance</strong>
+                  <small>
+                    {feesRolledIn
+                      ? 'You receive the requested amount; fees are added to the balance and monthly payment.'
+                      : 'Fees are deducted from the requested amount, reducing the cash you receive.'}
+                  </small>
+                </span>
+              </label>
               <Slider
                 label="Years to project royalty income"
                 value={outlookYears}
@@ -424,12 +446,21 @@ function Calculator() {
             <ResultMetric
               label="Cash received after fees"
               value={money(result.netLoanCash)}
-              sub={`${money(loanAmount)} loan amount less ${money(upfrontFees)} upfront fees`}
+              sub={
+                feesRolledIn
+                  ? `${money(loanAmount)} requested; ${money(result.loanFees)} fees financed`
+                  : `${money(loanAmount)} requested less ${money(result.loanFees)} upfront fees`
+              }
+            />
+            <ResultMetric
+              label="Estimated loan fees"
+              value={money(result.loanFees)}
+              sub={`${loanFeePercent}% of requested amount; ${feesRolledIn ? 'rolled into balance' : 'paid upfront'}`}
             />
             <ResultMetric
               label="Calculated monthly payment"
               value={money(result.payment)}
-              sub={`${loanMonths} fully amortizing payments`}
+              sub={`${loanMonths} payments on ${money(result.financedLoanAmount)} financed`}
             />
             <ResultMetric
               label="Total scheduled payments"
@@ -454,10 +485,12 @@ function Calculator() {
           </div>
 
           <p className="svl-footnote">
-            Assumptions: standard fully amortizing loan with monthly payments; upfront fees deducted
-            from proceeds; {outlookYears}-year royalty outlook; {annualDecline}% annual royalty
-            decline; and {discountRate}% annual discount rate. The comparison excludes taxes,
-            mineral resale value, changing production, and contract-specific terms.
+            Assumptions: standard fully amortizing loan with monthly payments; {loanFeePercent}%
+            estimated loan fee{' '}
+            {feesRolledIn ? 'added to the financed balance' : 'deducted from proceeds'};{' '}
+            {outlookYears}-year royalty outlook; {annualDecline}% annual royalty decline; and{' '}
+            {discountRate}% annual discount rate. The comparison excludes taxes, mineral resale
+            value, changing production, and contract-specific terms.
           </p>
         </aside>
       </div>

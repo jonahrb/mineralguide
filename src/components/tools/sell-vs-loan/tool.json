@@ -1,8 +1,11 @@
 {
   "slug": "sell-vs-loan",
   "title": "Sell vs. loan decision planner",
+  "pageHeading": "Should you sell your mineral rights or get a loan?",
   "category": "Decision support",
-  "description": "Compare cash offers, loan payments, and future royalty income side by side.",
+  "description": "Compare a mineral-rights sale offer with estimated loan proceeds, fees, payments, and the future royalty income you could keep or give up.",
+  "seoTitle": "Should I Sell My Mineral Rights or Get a Loan?",
+  "seoDescription": "Compare the cash from a mineral-rights sale with estimated loan proceeds, fees, monthly payments, and future royalty income using this interactive decision tool.",
   "icon": "scale",
   "order": 1
 }

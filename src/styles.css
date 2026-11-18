@@ -1713,6 +1713,10 @@ button {
   line-height: 1.82;
   overflow-wrap: anywhere;
 }
+.tool-guide {
+  max-width: 790px;
+  margin: 48px auto 0;
+}
 .article-body > :first-child {
   margin-top: 0;
 }

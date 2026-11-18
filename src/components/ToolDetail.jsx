@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   Calculator,
   ChartNoAxesCombined,
@@ -18,7 +20,7 @@ const iconMap = {
   scale: Scale,
 };
 
-export default function ToolDetail({ tool, children }) {
+export default function ToolDetail({ tool, guide, children }) {
   const Icon = iconMap[tool.icon] || Calculator;
 
   return (
@@ -33,7 +35,7 @@ export default function ToolDetail({ tool, children }) {
           </div>
           <div>
             <span className="tool-category">{tool.category}</span>
-            <h1>{tool.title}</h1>
+            <h1>{tool.pageHeading || tool.title}</h1>
           </div>
         </div>
         <p className="tool-detail-intro">{tool.description}</p>
@@ -55,6 +57,11 @@ export default function ToolDetail({ tool, children }) {
             investment, lending, appraisal, or purchase advice.
           </span>
         </div>
+        {guide && (
+          <article className="article-body tool-guide">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{guide}</ReactMarkdown>
+          </article>
+        )}
       </section>
     </main>
   );

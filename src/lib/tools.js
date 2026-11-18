@@ -17,7 +17,18 @@ function loadTool(folderName) {
     throw new Error(`Tool folder "${folderName}" has invalid tool.json: ${error.message}`);
   }
 
-  const { slug, title, category, description, icon, order = 1000, status = 'published' } = metadata;
+  const {
+    slug,
+    title,
+    category,
+    description,
+    icon,
+    order = 1000,
+    status = 'published',
+    pageHeading,
+    seoTitle,
+    seoDescription,
+  } = metadata;
   if (!slugPattern.test(folderName) || slug !== folderName) {
     throw new Error(
       `Tool folder "${folderName}" must use the same valid kebab-case slug in tool.json.`,
@@ -43,6 +54,11 @@ function loadTool(folderName) {
   if (!Number.isFinite(order)) {
     throw new Error(`Tool "${slug}" order must be a number.`);
   }
+  for (const [field, value] of Object.entries({ pageHeading, seoTitle, seoDescription })) {
+    if (value !== undefined && (typeof value !== 'string' || !value.trim())) {
+      throw new Error(`Tool "${slug}" ${field} must be a non-empty string when provided.`);
+    }
+  }
 
   if (status === 'published' && !existsSync(path.join(toolDirectory, 'Tool.jsx'))) {
     throw new Error(`Published tool "${slug}" needs a Tool.jsx component in its folder.`);
@@ -53,6 +69,9 @@ function loadTool(folderName) {
     title: title.trim(),
     category: category.trim(),
     description: description.trim(),
+    pageHeading: pageHeading?.trim(),
+    seoTitle: seoTitle?.trim(),
+    seoDescription: seoDescription?.trim(),
     icon,
     order,
     status,
@@ -67,4 +86,10 @@ export const tools = readdirSync(toolsDirectory, { withFileTypes: true })
 
 export function getTool(slug) {
   return tools.find((tool) => tool.slug === slug) || null;
+}
+
+export function getToolGuide(slug) {
+  if (!getTool(slug)) return null;
+  const guidePath = path.join(toolsDirectory, slug, 'guide.md');
+  return existsSync(guidePath) ? readFileSync(guidePath, 'utf8').trim() : null;
 }
