@@ -4,10 +4,10 @@ import { tools } from '../lib/tools';
 
 export default function sitemap() {
   const base = getSiteUrl();
-  const staticRoutes = ['', '/learn', '/tools', '/privacy'].map((route) => ({
+  const staticRoutes = ['', '/learn', '/tools', '/business', '/privacy'].map((route) => ({
     url: `${base}${route}`,
     changeFrequency: 'weekly',
-    priority: route === '' ? 1 : 0.7,
+    priority: route === '' ? 1 : route === '/business' ? 0.6 : 0.7,
   }));
   const articles = getPublishedArticles().map((article) => ({
     url: `${base}/learn/${article.slug}`,

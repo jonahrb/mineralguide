@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { track } from '@vercel/analytics';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -20,6 +21,7 @@ export function useSiteActions() {
 }
 
 export default function SiteShell({ children }) {
+  const isBusinessArea = usePathname()?.startsWith('/business');
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const [formType, setFormType] = useState('Financing');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -64,42 +66,8 @@ export default function SiteShell({ children }) {
 
   return (
     <SiteActionsContext.Provider value={{ openForm }}>
-      <header className="topbar">
-        <Link className="brand" href="/">
-          <span className="brand-mark">
-            <span />
-            <span />
-            <span />
-          </span>
-          <span>
-            mineral<span className="brand-light">guide</span>
-          </span>
-        </Link>
-        <nav className={mobileOpen ? 'nav open' : 'nav'}>
-          <Link href="/learn" onClick={() => setMobileOpen(false)}>
-            Learn
-          </Link>
-          <Link href="/tools" onClick={() => setMobileOpen(false)}>
-            Tools
-          </Link>
-          <Link href="/learn" onClick={() => setMobileOpen(false)}>
-            Ownership basics
-          </Link>
-          <button className="nav-cta" onClick={() => openForm()}>
-            Explore your options <ArrowUpRight size={15} />
-          </button>
-        </nav>
-        <button
-          className="mobile-menu"
-          aria-label="Toggle menu"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X /> : <Menu />}
-        </button>
-      </header>
-      {children}
-      <footer className="footer">
-        <div className="wrap footer-top">
+      {!isBusinessArea && (
+        <header className="topbar">
           <Link className="brand" href="/">
             <span className="brand-mark">
               <span />
@@ -110,23 +78,65 @@ export default function SiteShell({ children }) {
               mineral<span className="brand-light">guide</span>
             </span>
           </Link>
-          <span className="footer-tagline">Clarity for what’s beneath the surface.</span>
-          <div className="footer-links">
-            <Link href="/learn">Guides</Link>
-            <Link href="/tools">Tools</Link>
-            <button onClick={() => openForm()}>Contact</button>
+          <nav className={mobileOpen ? 'nav open' : 'nav'}>
+            <Link href="/learn" onClick={() => setMobileOpen(false)}>
+              Learn
+            </Link>
+            <Link href="/tools" onClick={() => setMobileOpen(false)}>
+              Tools
+            </Link>
+            <Link href="/business" onClick={() => setMobileOpen(false)}>
+              For businesses
+            </Link>
+            <Link href="/learn" onClick={() => setMobileOpen(false)}>
+              Ownership basics
+            </Link>
+            <button className="nav-cta" onClick={() => openForm()}>
+              Explore your options <ArrowUpRight size={15} />
+            </button>
+          </nav>
+          <button
+            className="mobile-menu"
+            aria-label="Toggle menu"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X /> : <Menu />}
+          </button>
+        </header>
+      )}
+      {children}
+      {!isBusinessArea && (
+        <footer className="footer">
+          <div className="wrap footer-top">
+            <Link className="brand" href="/">
+              <span className="brand-mark">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span>
+                mineral<span className="brand-light">guide</span>
+              </span>
+            </Link>
+            <span className="footer-tagline">Clarity for what’s beneath the surface.</span>
+            <div className="footer-links">
+              <Link href="/learn">Guides</Link>
+              <Link href="/tools">Tools</Link>
+              <Link href="/business">Business services</Link>
+              <button onClick={() => openForm()}>Contact</button>
+            </div>
           </div>
-        </div>
-        <div className="wrap footer-bottom">
-          <span>© 2026 Mineral Guide. Educational resource.</span>
-          <span>
-            Information is general and not legal, tax, investment, or lending advice. Any financing
-            referral may result in compensation.
-          </span>
-        </div>
-      </footer>
+          <div className="wrap footer-bottom">
+            <span>© 2026 Mineral Guide. Educational resource.</span>
+            <span>
+              Information is general and not legal, tax, investment, or lending advice. Any
+              financing referral may result in compensation.
+            </span>
+          </div>
+        </footer>
+      )}
 
-      {inquiryOpen && (
+      {!isBusinessArea && inquiryOpen && (
         <div
           className="modal-backdrop"
           onMouseDown={(event) => {
